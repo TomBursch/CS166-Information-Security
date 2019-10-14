@@ -1,0 +1,57 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,scale=0.8]{geometry}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\usepackage[english]{babel}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+
+\setlength\parindent{0pt}
+\title{Assignment 2\\\textbf{\large{Information Security}}}
+\author{Tom Bursch}
+
+\begin{document}
+\maketitle
+\section*{Crack the cipher}
+Yes, I have been able to crack a ciphertext with the letter frequency analysis I implemented. However, I was not able to crack every ciphertext as ones without spaces were harder to analyze and thus hared to detect words. Also, using the full Unicode set made it harder to break, since big and small letters get different cipher values.
+My implemented cracking algorithm first tries to crack the given cipher automatically by counting the characters and mapping them onto the hard-coded frequency of characters in the English language. This method mostly never cracked the code, as lower frequency characters are often mixed up, so a small difference in occurrences in a short ciphertext makes a big difference in frequency and thus the mapping will not fit. The mapping can be fixed by detecting words in a sentence and switching single characters. In my algorithm, this has to be done manually. But potentially this could be automated with implementing current spell check technology for detecting the right permutation. After all, this still requires the attacker to know the language the plain text was written in.
+\section*{10 characters ciphertext}
+Yes, I was able to crack a 10 character ciphertext. For example, that \emph{"eeeeetttaa"} is crackable with letter frequency analysis is trivial as e is the most common character in the English language followed by t and a. This though is pretty useless as nobody would ever want to keep this string private. I tried a lot of sense full ten character string but could not crack any of them. A breakable string needs to have the right frequency of letters coincidently and therefore is not easy to find.
+\section*{Minimum number of characters}
+As we talked about it earlier, the length plays a significant role in whether our code is breakable or not as a longer ciphertext gives more information about frequencies and which character is likely mapped to which character.\\
+Again an trivial example, the shortest message I cracked is \emph{"e"}. This, however, is not a good example as the attacker needs to know the plain text to be sure \emph{"e"} is right. Indeed all letters have the same probability of being the plain text when the length is one and that we cracked the code is solely a coincidence.
+Even trying to crack the whole first chapter of harry potter does not work automatically and needs some manual work, but here the chances that the cracked code is a false-positive is significantly lower as we have a lot more English words to test against.\\
+Nonetheless, the length is not the only factor that plays a role when trying to break a code. The background information an attacker has is essential, too. Not only does an attacker, as we stated earlier, need to know the language of the plain text, but also it makes a huge difference if he already knows a part of the plain text. Knowing that the first chapter of Harry Potter ends with \emph{The boy who lived} helped a lot while breaking it.
+
+\section*{Source}
+\lstinputlisting[language=Java]{../source/bin/permCiphers.dart}
+\lstinputlisting[language=Java]{../source/bin/letterFreqAnalysis.dart}
+\end{document}
